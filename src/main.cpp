@@ -16,9 +16,12 @@
 
 #define LED 2
 #define DELAY 300
+#define HUMIDITY_SENSOR 34
 
 const char* ssid = "ssid";
 const char* password = "pw";
+
+int humidity = 0;
 
 AsyncWebServer server(80);
 
@@ -51,5 +54,9 @@ void setup(void) {
 
 void loop(void) {
     digitalWrite(LED, !digitalRead(LED));
+    humidity = analogRead(HUMIDITY_SENSOR);
+    Serial.println("");
+    Serial.print("Sensor de humedad: ");
+    Serial.println(humidity);
     delay(DELAY);
 }
