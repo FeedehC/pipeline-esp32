@@ -38,4 +38,4 @@ jobs:
           pio test -vvv --environment nodemcu-32s
       - name: "upload to board"
         run: |
-          pio run --target upload --upload-port /dev/ttyUSB0 --environment nodemcu-32s  
+          pio run --target upload --environment nodemcu-32s  
