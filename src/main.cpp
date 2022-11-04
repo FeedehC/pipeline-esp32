@@ -3,15 +3,17 @@
 #include <AsyncTCP.h>
 #include <ESPAsyncWebServer.h>
 #include <AsyncElegantOTA.h>
+#include <stdlib.h>
 
-#include "credentials.h"
+//#include "credentials.h"
 
 #define LED 2
-#define DELAY 2000
+#define DELAY 200
 #define HUMIDITY_SENSOR 34
 
-const char* ssid = WIFI_SSID;
-const char* password = WIFI_PASS;
+//Get credentials from environment variables
+const char* ssid = getenv("WIFI_SSID");
+const char* password = getenv("WIFI_PASS");
 
 int humidity = 0;
 
