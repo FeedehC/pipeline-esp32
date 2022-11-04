@@ -4,3 +4,4 @@
 .pio
 sdkconfig.nodemcu-32s
 .env
+/src/credentials.h

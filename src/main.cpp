@@ -14,12 +14,16 @@
 #include <ESPAsyncWebServer.h>
 #include <AsyncElegantOTA.h>
 
+#include "credentials.h"
+
 #define LED 2
-#define DELAY 300
+#define DELAY 2000
 #define HUMIDITY_SENSOR 34
 
-const char* ssid = "ssid";
-const char* password = "pw";
+//const char* ssid = "ssid";
+//const char* password = "pw";
+const char* ssid = WIFI_SSID;
+const char* password = WIFI_PASS;
 
 int humidity = 0;
 
@@ -54,9 +58,9 @@ void setup(void) {
 
 void loop(void) {
     digitalWrite(LED, !digitalRead(LED));
-    humidity = analogRead(HUMIDITY_SENSOR);
+    /*humidity = analogRead(HUMIDITY_SENSOR);
     Serial.println("");
     Serial.print("Sensor de humedad: ");
-    Serial.println(humidity);
+    Serial.println(humidity);*/
     delay(DELAY);
 }
