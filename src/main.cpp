@@ -5,11 +5,8 @@
 #include <AsyncElegantOTA.h>
 #include <stdlib.h>
 
+#include "param.h"
 //#include "credentials.h"
-
-#define LED 2
-#define DELAY 2000
-#define HUMIDITY_SENSOR 34
 
 //Get credentials from environment variables
 const char* ssid = WIFI_SSID; //getenv("WIFI_SSID");
