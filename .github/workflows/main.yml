@@ -38,7 +38,7 @@ jobs:
           pio run
       - name: "unit test"
         run: |
-          pio test -vvv --environment nodemcu-32s
+          pio test -vvv --environment nodemcu-32s --without-uploading
       - name: "upload to board"
         env:
           WIFI_SSID: ${{ secrets.WIFI_SSID }}
