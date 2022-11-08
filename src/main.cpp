@@ -8,7 +8,7 @@
 //#include "credentials.h"
 
 #define LED 2
-#define DELAY 200
+#define DELAY 2000
 #define HUMIDITY_SENSOR 34
 
 //Get credentials from environment variables
