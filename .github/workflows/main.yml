@@ -31,11 +31,18 @@ jobs:
           pip install platformio
           pip install PyGithub
       - name: "build code"
+        env:
+          WIFI_SSID: ${{ secrets.WIFI_SSID }}
+          WIFI_PASS: ${{ secrets.WIFI_PASS }}
         run: |
           pio run
-      - name: "unit test"
-        run: |
-          pio test -vvv --environment nodemcu-32s
+#pio test works for USB serial connection but not for OTA WIFI
+#      - name: "unit test"
+#        run: |
+#          pio test -vvv --environment nodemcu-32s
       - name: "upload to board"
+        env:
+          WIFI_SSID: ${{ secrets.WIFI_SSID }}
+          WIFI_PASS: ${{ secrets.WIFI_PASS }}
         run: |
-          pio run --target upload --upload-port /dev/ttyUSB0 --environment nodemcu-32s  
+          pio run --target upload --environment nodemcu-32s  
