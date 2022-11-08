@@ -12,8 +12,8 @@
 #define HUMIDITY_SENSOR 34
 
 //Get credentials from environment variables
-const char* ssid = getenv("WIFI_SSID");
-const char* password = getenv("WIFI_PASS");
+const char* ssid = WIFI_SSID; //getenv("WIFI_SSID");
+const char* password = WIFI_PASS; //getenv("WIFI_PASS");
 
 int humidity = 0;
 
