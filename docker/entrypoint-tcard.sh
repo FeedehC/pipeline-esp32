@@ -1,12 +1,5 @@
 #!/bin/bash
 
-# trap ctrl-c and call ctrl_c()
-trap ctrl_c INT
-
-function ctrl_c() {
-        echo "Trapped CTRL-C"
-}
-
 if [[ "$@" == "bash" ]]; then
     exec $@
 fi
@@ -76,8 +69,7 @@ else
         --name $RUNNER_NAME \
         --work $RUNNER_WORK_DIRECTORY \
         $CONFIG_OPTS \
-        --unattended && \
-        ./run.sh
+        --unattended
 fi
 
 exec "$@"
