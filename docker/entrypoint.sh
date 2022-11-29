@@ -4,7 +4,8 @@
 trap ctrl_c INT
 
 function ctrl_c() {
-        echo "Trapped CTRL-C"
+    echo "CTRL-C detectado, finalizando contenedor y eliminando el runner..."
+    ./config.sh remove --token $RUNNER_TOKEN
 }
 
 if [[ "$@" == "bash" ]]; then
@@ -76,6 +77,7 @@ else
         --name $RUNNER_NAME \
         --work $RUNNER_WORK_DIRECTORY \
         $CONFIG_OPTS \
+        --disableupdate \
         --unattended && \
         ./run.sh
 fi

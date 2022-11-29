@@ -12,25 +12,23 @@ ENV RUNNER_ALLOW_RUNASROOT=true
 ENV GITHUB_ACCESS_TOKEN=""
 ENV AGENT_TOOLSDIRECTORY=/opt/hostedtoolcache
 
-RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
-    apt-get install -y \
+RUN DEBIAN_FRONTEND=noninteractive apt update && \
+    apt install -y \
         curl \
-        unzip \
+        tar \
         apt-transport-https \
         ca-certificates \
         software-properties-common \
         sudo \
-        supervisor \
         jq \
         iputils-ping \
         build-essential \
         zlib1g-dev \
         gettext \
         liblttng-ust0 \
-        libcurl4-openssl-dev \
-        openssh-client && \
+        libcurl4-openssl-dev && \
     rm -rf /var/lib/apt/lists/* && \
-    apt-get clean
+    apt clean
 
 WORKDIR /home/runner
 
