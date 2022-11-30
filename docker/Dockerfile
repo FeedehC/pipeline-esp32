@@ -16,6 +16,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt update && \
     apt install -y \
         curl \
         tar \
+        python3-pip \
         apt-transport-https \
         ca-certificates \
         software-properties-common \
@@ -29,6 +30,10 @@ RUN DEBIAN_FRONTEND=noninteractive apt update && \
         libcurl4-openssl-dev && \
     rm -rf /var/lib/apt/lists/* && \
     apt clean
+
+RUN python3 -m pip install --upgrade pip && \
+    pip install platformio && \
+    pip install PyGithub
 
 WORKDIR /home/runner
 
