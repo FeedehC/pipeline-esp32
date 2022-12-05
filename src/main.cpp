@@ -66,7 +66,7 @@ void loop()
     reconnect();
   }
   client.loop();  
-  /*
+  
   long now = millis();
   
   if (now - lastMsg > tiempoMuestras * DELAY * pesoMuestras) // 1000ms de muestreo
@@ -77,7 +77,7 @@ void loop()
     char tempString[8];
     mandarDatos(ANALOG_1, tempArray, N_fil, "esp32/nivelLuzz", 0, 4095);
     mandarDatos(ANALOG_2, humeArray, N_fil, "esp32/humedadSueloo", 2370, 4095);//880, 1540); //2370, 4095);
-
+    /*
     humedad = dht.readHumidity();
     dtostrf(humedad, 1, 2, humString);
     client.publish("esp32/humidityy", humString); // esp32/humidity
@@ -85,12 +85,12 @@ void loop()
     temperature = dht.readTemperature();
     dtostrf(temperature, 1, 2, tempString);
     client.publish("esp32/temperaturee", tempString); // esp32/temperature
-
+    */
     digitalWrite(LED_ONBOARD, !digitalRead(LED_ONBOARD));
-  }*/
+  }
 
-  digitalWrite(LED_ONBOARD, !digitalRead(LED_ONBOARD));
-  delay(DELAY);
+  //digitalWrite(LED_ONBOARD, !digitalRead(LED_ONBOARD));
+  //delay(DELAY);
 }
 
 /*
