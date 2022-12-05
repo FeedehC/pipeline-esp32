@@ -6,19 +6,36 @@
 #include <stdlib.h>
 
 #include "param.h"
-//#include "credentials.h"
 
 //Get credentials from environment variables
-const char* ssid = WIFI_SSID; //getenv("WIFI_SSID");
-const char* password = WIFI_PASS; //getenv("WIFI_PASS");
+const char* ssid = WIFI_SSID;
+const char* password = WIFI_PASS;
 
 int humidity = 0;
 
 AsyncWebServer server(80);
 
+void start_ota_webserver(void);
+
 void setup(void) {
-    pinMode(LED, OUTPUT);
+  pinMode(LED, OUTPUT);
   Serial.begin(115200);
+}
+
+void loop(void) {
+    digitalWrite(LED, !digitalRead(LED));
+    /*humidity = analogRead(HUMIDITY_SENSOR);
+    Serial.println("");
+    Serial.print("Sensor de humedad: ");
+    Serial.println(humidity);*/
+    delay(DELAY);
+}
+
+
+//------------------------Funciones------------------------------//
+
+void start_ota_webserver(void)
+{
   WiFi.mode(WIFI_STA);
   WiFi.begin(ssid, password);
   Serial.println("");
@@ -41,13 +58,4 @@ void setup(void) {
   AsyncElegantOTA.begin(&server);    // Start ElegantOTA
   server.begin();
   Serial.println("HTTP server started");
-}
-
-void loop(void) {
-    digitalWrite(LED, !digitalRead(LED));
-    /*humidity = analogRead(HUMIDITY_SENSOR);
-    Serial.println("");
-    Serial.print("Sensor de humedad: ");
-    Serial.println(humidity);*/
-    delay(DELAY);
 }
