@@ -49,7 +49,7 @@ void pushData(uint8_t *tempArray, uint8_t newTemp, uint8_t N_fil);
 void mandarDatos(const int Read, uint8_t *datoArray, uint8_t N_fil, const char *topic, int min, int max);
 
 void setup(void) {
-  pinMode(LED, OUTPUT);
+  pinMode(LED_ONBOARD, OUTPUT);
   Serial.begin(115200);
 
   start_ota_webserver();
@@ -58,14 +58,51 @@ void setup(void) {
   client.setCallback(callback);
 }
 
+void loop()
+{
+  if (!client.connected())
+  {
+    Serial.println("Cliente desconectado, intentando reconexión...");
+    reconnect();
+  }
+  client.loop();  
+  /*
+  long now = millis();
+  
+  if (now - lastMsg > tiempoMuestras * DELAY * pesoMuestras) // 1000ms de muestreo
+  {
+    lastMsg = now;
+    
+    char humString[8];
+    char tempString[8];
+    mandarDatos(ANALOG_1, tempArray, N_fil, "esp32/nivelLuzz", 0, 4095);
+    mandarDatos(ANALOG_2, humeArray, N_fil, "esp32/humedadSueloo", 2370, 4095);//880, 1540); //2370, 4095);
+
+    humedad = dht.readHumidity();
+    dtostrf(humedad, 1, 2, humString);
+    client.publish("esp32/humidityy", humString); // esp32/humidity
+
+    temperature = dht.readTemperature();
+    dtostrf(temperature, 1, 2, tempString);
+    client.publish("esp32/temperaturee", tempString); // esp32/temperature
+
+    digitalWrite(LED_ONBOARD, !digitalRead(LED_ONBOARD));
+  }*/
+
+  digitalWrite(LED_ONBOARD, !digitalRead(LED_ONBOARD));
+  delay(DELAY);
+}
+
+/*
 void loop(void) {
     digitalWrite(LED, !digitalRead(LED));
-    /*humidity = analogRead(HUMIDITY_SENSOR);
-    Serial.println("");
-    Serial.print("Sensor de humedad: ");
-    Serial.println(humidity);*/
+    //humidity = analogRead(HUMIDITY_SENSOR);
+    //Serial.println("");
+    //Serial.print("Sensor de humedad: ");
+    //Serial.println(humidity);
     delay(DELAY);
 }
+*/
 
 
 //------------------------Funciones------------------------------//
@@ -112,17 +149,17 @@ void callback(char *topic, byte *message, unsigned int length)
   //------------------Primer Output topic esp32/output1------------------
   if (String(topic) == "esp32/output1")
   {
-    changeState(messageTemp, LED);
+    changeState(messageTemp, LED_ONBOARD);
   }
   //------------------Segundo Output topic esp32/output2------------------
   if (String(topic) == "esp32/output2")
   {
-    changeState(messageTemp, LED);
+    changeState(messageTemp, LED_ONBOARD);
   }
   //------------------Tercer Output topic esp32/output3------------------
   if (String(topic) == "esp32/output3")
   {
-    changeState(messageTemp, LED);
+    changeState(messageTemp, LED_ONBOARD);
   }
   //------------------Cuarto Output topic esp32/output4------------------
   if (String(topic) == "esp32/output4")
