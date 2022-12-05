@@ -43,6 +43,10 @@ PubSubClient client(espClient);
 void start_ota_webserver(void);
 void callback(char *topic, byte *message, unsigned int length);
 void changeState(String messageTemp, int pin);
+void reconnect();
+double prome(uint8_t temp[], uint8_t N_filter);
+void pushData(uint8_t *tempArray, uint8_t newTemp, uint8_t N_fil);
+void mandarDatos(const int Read, uint8_t *datoArray, uint8_t N_fil, const char *topic, int min, int max);
 
 void setup(void) {
   pinMode(LED, OUTPUT);
@@ -180,4 +184,67 @@ void changeState(String messageTemp, int pin)
     Serial.println("off");
     digitalWrite(pin, LOW);
   }
+}
+
+void reconnect()
+{
+  // Bucle hasta que se reconecte
+  while (!client.connected())
+  {
+    Serial.print("Intentando conexion MQTT... ");
+    if (client.connect("ESP32Client-fede", mqtt_user, mqtt_pass))
+    {
+      Serial.println("Conectado");
+      client.subscribe("esp32/output1");
+      client.subscribe("esp32/output2");
+      client.subscribe("esp32/output3");
+      client.subscribe("esp32/output4");
+      client.subscribe("esp32/output5");
+      client.subscribe("esp32/output6");
+      client.subscribe("esp32/output7");
+    }
+    else
+    {
+      Serial.print("Fallo, rc=");
+      Serial.print(client.state());
+      Serial.println(" Intentando de nuevo en 5 segundos...");
+      delay(5000);
+    }
+  }
+}
+
+double prome(uint8_t temp[], uint8_t N_filter)
+{
+  uint16_t acum = 0;
+
+  for (uint8_t i = 0; i < N_filter; i++)
+  {
+    acum += temp[i];
+  }
+  return acum / N_filter;
+}
+
+void pushData(uint8_t *tempArray, uint8_t newTemp, uint8_t N_fil)
+{
+  // Corro el valor anterior en el arreglo per copio todo uno a la derecha, luego pongo el valor recibido en este en CERO como en mas actual
+  for (int i = (N_fil - 1); i > 0; i--)
+  {
+    tempArray[i] = tempArray[i - 1];
+  }
+  tempArray[0] = newTemp;
+}
+
+void mandarDatos(const int Read, uint8_t *datoArray, uint8_t N_fil, const char *topic, int min, int max)
+{
+  float dato;
+  char datoString[8];
+  for (size_t i = 0; i < N_fil; i++)
+  {
+    delay(100);
+    dato = 100 - map(analogRead(Read), min, max, 0, 100);
+    pushData(datoArray, dato, N_fil);
+  }
+  prom = prome(datoArray, N_fil);
+  dtostrf(prom, 1, 2, datoString);
+  client.publish(topic, datoString);
 }
