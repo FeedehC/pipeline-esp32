@@ -33,11 +33,11 @@ RUN DEBIAN_FRONTEND=noninteractive apt update && \
 
 RUN python3 -m pip install --upgrade pip && \
     pip install platformio && \
-    pip install PyGithub
+    pip install PyGithub && \
+    pip install requests_toolbelt && \
+    pip install tqdm
 
 WORKDIR /home/runner
-
-RUN mkdir actions-runner && cd actions-runner
 
 RUN curl -o actions-runner-linux-x64-${GH_RUNNER_VERSION}.tar.gz -L https://github.com/actions/runner/releases/download/v${GH_RUNNER_VERSION}/actions-runner-linux-x64-${GH_RUNNER_VERSION}.tar.gz
 
