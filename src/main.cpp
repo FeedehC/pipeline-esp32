@@ -5,8 +5,11 @@
 #include <AsyncElegantOTA.h>
 #include <stdlib.h>
 #include <PubSubClient.h>
+#include <DHT.h>
 
 #include "param.h"
+
+DHT dht(DHTPIN, DHTTYPE);
 
 //Get credentials from environment variables
 const char* ssid = WIFI_SSID;
@@ -77,7 +80,7 @@ void loop()
     char tempString[8];
     mandarDatos(ANALOG_1, tempArray, N_fil, "esp32/nivelLuzz", 0, 4095);
     mandarDatos(ANALOG_2, humeArray, N_fil, "esp32/humedadSueloo", 2370, 4095);//880, 1540); //2370, 4095);
-    /*
+    
     humedad = dht.readHumidity();
     dtostrf(humedad, 1, 2, humString);
     client.publish("esp32/humidityy", humString); // esp32/humidity
@@ -85,7 +88,7 @@ void loop()
     temperature = dht.readTemperature();
     dtostrf(temperature, 1, 2, tempString);
     client.publish("esp32/temperaturee", tempString); // esp32/temperature
-    */
+    
     digitalWrite(LED_ONBOARD, !digitalRead(LED_ONBOARD));
   }
 
@@ -149,17 +152,17 @@ void callback(char *topic, byte *message, unsigned int length)
   //------------------Primer Output topic esp32/output1------------------
   if (String(topic) == "esp32/output1")
   {
-    changeState(messageTemp, LED_ONBOARD);
+    changeState(messageTemp, LED_1);
   }
   //------------------Segundo Output topic esp32/output2------------------
   if (String(topic) == "esp32/output2")
   {
-    changeState(messageTemp, LED_ONBOARD);
+    changeState(messageTemp, LED_2);
   }
   //------------------Tercer Output topic esp32/output3------------------
   if (String(topic) == "esp32/output3")
   {
-    changeState(messageTemp, LED_ONBOARD);
+    changeState(messageTemp, LED_3);
   }
   //------------------Cuarto Output topic esp32/output4------------------
   if (String(topic) == "esp32/output4")
